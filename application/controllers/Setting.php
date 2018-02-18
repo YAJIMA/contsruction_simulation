@@ -5,6 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Class Setting
  * @property Users_model $users_model
  * @property Options_model $options_model
+ * @property Configs_model $configs_model
  */
 class Setting extends CI_Controller {
 
@@ -21,6 +22,7 @@ class Setting extends CI_Controller {
 
         $this->load->model('users_model');
         $this->load->model('options_model');
+        $this->load->model('configs_model');
 
     }
 
@@ -177,5 +179,20 @@ class Setting extends CI_Controller {
         {
             redirect('setting/changeparam');
         }
+    }
+
+    /**
+     * メール変更
+     */
+    public function changemail()
+    {
+        // 設定一覧
+        $this->data['configs'] = $this->configs_model->load();
+
+        $this->data['title'] = '項目設定';
+        $this->load->view('_head', $this->data);
+        $this->load->view('_header_admin', $this->data);
+        $this->load->view('setting_changeparam');
+        $this->load->view('_foot', $this->data);
     }
 }

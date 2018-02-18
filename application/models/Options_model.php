@@ -62,12 +62,78 @@ class Options_model extends CI_Model
         $this->db->order_by('level', 'ASC');
         $query = $this->db->get('options');
 
-        foreach ($query->result_array() as $row)
-        {
+        foreach ($query->result_array() as $row) {
             $result[$row['title']][] = $row;
         }
         unset($row);
 
         return $result;
     }
+
+    public function postset()
+    {
+        foreach ($this->input->post(NULL, TRUE) as $key => $value) {
+            if ($key)
+            {
+                $_SESSION[$key] = $value;
+            }
+        }
+        unset($key,$value);
+    }
+
+    public function calc()
+    {
+        $result = $base_area = $base_price = 0;
+
+        if (isset($_SESSION["延床面積"])) {
+            $base_area = $_SESSION["延床面積"];
+        }
+
+        if (isset($_SESSION["希望する塗料の種類"])) {
+            $val = $this->getvalue($_SESSION["希望する塗料の種類"], 'unitprice');
+            $base_price = $base_area * $val['unitprice'];
+        }
+
+        $result += $base_price;
+        foreach ($_SESSION as $key => $val)
+        {
+            switch ($key)
+            {
+                case "前回の塗装からの経過年数":
+                case "築年数":
+                case "建物の階数":
+                case "外装材の種類":
+                case "屋根材の種類":
+                case "お住いの地域":
+                case "地域の気候の特徴":
+                    $val = $this->getvalue($_SESSION[$key], 'perprice');
+                    $result += $base_price * $val['perprice'];
+                    break;
+                default:
+                    break;
+            }
+        }
+        unset($key,$val);
+
+        return $result;
+    }
+
+    private function getvalue($lv, $col)
+    {
+        $this->db->select($col);
+        $this->db->where("level",$lv);
+        $query = $this->db->get("options");
+        return $query->row_array();
+    }
 }
+/*
+ * Array
+(
+    [__ci_last_regenerate] => 1518791715
+    [sess] => 7ea89a7005c0d21cb078c9624190b912
+    [希望する塗料の種類] => 101
+    [延床面積] => 55.1
+    [前回の塗装からの経過年数] => 303
+    [築年数] => 404
+    [建物の階数] => 503
+)*/
