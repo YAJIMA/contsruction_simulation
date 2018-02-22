@@ -9,6 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reports_model extends CI_Model
 {
+    /**
+     * init_session
+     */
     public function init_session()
     {
         if ( ! isset($_SESSION['sess']))
@@ -30,6 +33,39 @@ class Reports_model extends CI_Model
                 $_SESSION['sess'] = $sess;
             }
         }
+    }
+
+    /**
+     * load
+     * @return array
+     */
+    public function load()
+    {
+        $result = array();
+
+        if (isset($_SESSION["sess"]))
+        {
+            $sess = $_SESSION["sess"];
+
+            // reports 検索
+            $reports = $this->getreports($sess);
+            $report_id = $reports["id"];
+            $result = $reports;
+
+            // options_reports 検索
+            $options_reports = $this->get_options_reports($report_id);
+
+            foreach ($options_reports as $row)
+            {
+                $values = $this->get_options_value($row["level"], "title,strvalue");
+                $_SESSION[$values["title"]] = $values["strvalue"];
+            }
+
+            $result["options"] = $options_reports;
+
+        }
+
+        return $result;
     }
 
     public function update()
@@ -79,27 +115,43 @@ class Reports_model extends CI_Model
 
             // reports 更新
             $data = array();
+            // メールアドレス
             if (isset($_SESSION["email"]))
             {
                 $data["email"] = $_SESSION["email"];
             }
+            // 延床面積
             if (isset($_SESSION["延床面積"]))
             {
                 $data["floorarea"] = $_SESSION["延床面積"];
             }
+            // 簡易見積もりした
             if ($simplicity_form_exec)
             {
                 $data["simplicity_form_exec"] = $simplicity_form_exec;
             }
+            // 詳細見積もりした
             if ($detail_form_exec)
             {
                 $data["detail_form_exec"] = $detail_form_exec;
             }
+            // メール送信した
             if (isset($_SESSION["emailsend"]))
             {
                 $data["email_exec"] = 1;
+                $data["email_send"] = $_SESSION["emailsend"];
             }
-
+            // メールのリンクを踏んだ
+            if (isset($_SESSION["email_access"]))
+            {
+                $data["email_access"] = $_SESSION["email_access"];
+            }
+            // 詳細見積もりした
+            if (isset($_SESSION["finish"]))
+            {
+                $data["detail_form_exec"] = 1;
+                $data["finish"] = $_SESSION["finish"];
+            }
             $this->db->set($data);
             $this->db->where("id", $report_id);
             $this->db->update("reports");
@@ -114,6 +166,21 @@ class Reports_model extends CI_Model
     {
         $this->db->where("uniquekey", $sess);
         $query = $this->db->get("reports");
+        return $query->row_array();
+    }
+
+    private function get_options_reports($report_id)
+    {
+        $this->db->where("report_id", $report_id);
+        $query = $this->db->get("options_reports");
+        return $query->result_array();
+    }
+
+    private function get_options_value($lv, $col)
+    {
+        $this->db->select($col);
+        $this->db->where("level",$lv);
+        $query = $this->db->get("options");
         return $query->row_array();
     }
 

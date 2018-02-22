@@ -16,7 +16,11 @@ class Configs_model extends CI_Model
         $this->db->select("keyname,strvalue,intvalue");
         $query = $this->db->get("configs");
 
-        $result = $query->result_array();
+        //$result = $query->result_array();
+        foreach ($query->result_array() as $row)
+        {
+            $result[$row['keyname']] = $row;
+        }
 
         return $result;
     }
@@ -34,6 +38,18 @@ class Configs_model extends CI_Model
         $this->db->set($data);
         $this->db->where("keyname", $this->input->post("keyname"));
         $this->db->update("configs");
+        return TRUE;
+    }
+
+    public function updateall()
+    {
+        foreach ($this->input->post(NULL, TRUE) as $key => $item)
+        {
+            $data = array("strvalue" => $item);
+            $this->db->set($data);
+            $this->db->where("keyname", $key);
+            $this->db->update("configs");
+        }
         return TRUE;
     }
 }

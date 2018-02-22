@@ -186,13 +186,18 @@ class Setting extends CI_Controller {
      */
     public function changemail()
     {
+        if ($this->input->method(TRUE) == "POST")
+        {
+            $this->configs_model->updateall();
+        }
+
         // 設定一覧
         $this->data['configs'] = $this->configs_model->load();
 
         $this->data['title'] = '項目設定';
         $this->load->view('_head', $this->data);
         $this->load->view('_header_admin', $this->data);
-        $this->load->view('setting_changeparam');
+        $this->load->view('setting_changemail');
         $this->load->view('_foot', $this->data);
     }
 }

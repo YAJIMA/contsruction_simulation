@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Class Simulation
  * @property Options_model $options_model
  * @property Reports_model $reports_model
+ * @property Configs_model $configs_model
  */
 class Simulation extends CI_Controller
 {
@@ -22,12 +23,20 @@ class Simulation extends CI_Controller
 
         $this->load->model('options_model');
         $this->load->model('reports_model');
+        $this->load->model('configs_model');
 
         // セッション初期化（必要なら）
         $this->reports_model->init_session();
 
         // 簡易入力フォーム
         $this->data['items'] = $this->options_model->simplicities();
+
+        // 詳細入力フォーム
+        $this->data['detail_items'] = $this->options_model->details();
+
+        // 初期設定
+        $this->data['configs'] = $this->configs_model->load();
+
     }
 
     public function index()
@@ -62,17 +71,137 @@ class Simulation extends CI_Controller
     {
         // フォームバリデーションライブラリ
         $this->load->library('form_validation');
+
         // 検証ルール
-        $this->form_validation->set_rules('email', 'メールアドレス', 'required|trim|xss_clean|valid_email');
+        $this->form_validation->set_rules('email', 'メールアドレス', 'required|trim|valid_email');
 
-        if($this->form_validation->run()){	//バリデーションエラーがなかった場合の処理
+        // 見積もり計算
+        $this->data['estimateprice'] = $this->options_model->calc();
+
+        if ($this->data['estimateprice'] == 0)
+        {
+            // 見積もり金額が0円（セッション切れ）
+            redirect("simulation");
+        }
+        elseif ($this->form_validation->run())
+        {	//バリデーションエラーがなかった場合の処理
+
+            // 詳細リンク
+            $gotourl = base_url("simulation/detailform/".$_SESSION["sess"]);
+
+            // 宛先
+            $_SESSION['email'] = $this->input->post("email");
+
+            // メール件名
+            $subject = $this->data['configs']['simplicity_sbj']['strvalue'];
+
+            // メール本文
+            $mailbody = $this->data['configs']['simplicity']['strvalue'];
+
+            $mailbody = str_replace("#見積金額#", number_format($this->data['estimateprice']), $mailbody);
+
+            $listvalues = $this->options_model->listvalue();
+            foreach ($listvalues as $key => $val)
+            {
+                $mailbody = str_replace("#".$key."#", $val, $mailbody);
+            }
+            unset($key,$val);
+
+            $mailbody = str_replace("#GOTOURL#", $gotourl, $mailbody);
+
             // メール送信
+            $this->load->library('email');
 
-        }else{
+            $this->email->from($this->data['configs']['email_from']['strvalue'], $this->data['configs']['email_from_name']['strvalue']);
+            $this->email->to($_SESSION['email']);
+            if ($this->data['configs']['email_reply']['strvalue'] !== "")
+            {
+                $this->email->reply_to($this->data['configs']['email_reply']['strvalue'], $this->data['configs']['email_from_name']['strvalue']);
+            }
+            if ($this->data['configs']['email_cc']['strvalue'] !== "")
+            {
+                $this->email->cc($this->data['configs']['email_cc']['strvalue']);
+            }
+
+            $this->email->subject($subject);
+            $this->email->message($mailbody);
+
+            $this->email->send();
+
+            $_SESSION['emailsend'] = date("Y-m-d H:i:s");
+
+            // レポート更新
+            $this->reports_model->update();
+
+            $this->data['title'] = '簡易入力フォームの入力受け付けました';
+            $this->load->view('simulation/simplicityform_thanks.php', $this->data);
+        }
+        else
+        {
             //バリデーションエラーがあった場合の処理
             $this->data['title'] = '簡易入力フォームの入力受付';
             $this->load->view('simulation/simplicityform.php', $this->data);
         }
+    }
+
+    public function mailsend_check()
+    {
+
+    }
+
+    /**
+     * detailform
+     * 詳細見積もり
+     * @param $_sess
+     */
+    public function detailform($_sess)
+    {
+        if (empty($_sess))
+        {
+            redirect("simulation");
+        }
+
+        // URLからセッションを上書き
+        $_SESSION["sess"] = $_sess;
+
+        // メールのリンクを踏んだ
+        if ( ! isset($_SESSION["email_access"]))
+        {
+            $_SESSION["email_access"] = date("Y-m-d H:i:s");
+            $this->reports_model->update();
+        }
+
+        // レポート
+        $reports = $this->reports_model->load();
+
+        // 見積もり計算
+        $this->data['estimateprice'] = $this->options_model->calc();
+
+        $this->data['title'] = '詳細見積もり';
+        $this->load->view('simulation/detailform.php', $this->data);
+    }
+
+    /**
+     * detailfinish
+     * 詳細見積もり結果
+     */
+    public function detailfinish()
+    {
+        // 簡易入力フォーム受付
+        $this->options_model->postset();
+
+        // レポート更新
+        $_SESSION["finish"] = date("Y-m-d H:i:s");
+        $this->reports_model->update();
+
+        // レポート
+        $reports = $this->reports_model->load();
+
+        // 見積もり計算
+        $this->data['estimateprice'] = $this->options_model->calc();
+
+        $this->data['title'] = '詳細見積もり結果';
+        $this->load->view('simulation/detailfinish.php', $this->data);
     }
 
 }

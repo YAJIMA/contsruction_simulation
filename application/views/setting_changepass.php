@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container">
     <?php echo validation_errors('<div class="alert alert-danger" role="alert">', '</div>'); ?>
     <section id="updateform">
-        <h1>パスワード変更</h1>
+        <h1>ログインユーザー設定</h1>
         <p>ログインユーザーのパスワードを変更します。</p>
         <?php foreach ($userlist as $u) : ?>
         <div class="<?php if (isset($_SESSION['add_user']) && $u['id'] == $_SESSION['add_user']) echo 'bg-light'; ?>">

@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php endforeach; ?>
 
     <h3>延床面積 ( ㎡ )</h3>
-    <input type="number" name="延床面積" value="<?php echo $_SESSION["延床面積"];?>" step="0.1" placeholder="0">㎡
+    <input type="number" name="延床面積" value="<?php echo $_SESSION["延床面積"];?>" step="0.01" placeholder="0">㎡
 
     <h3>前回の塗装からの経過年数</h3>
     <?php foreach ($items['前回の塗装からの経過年数'] as $item) : ?>

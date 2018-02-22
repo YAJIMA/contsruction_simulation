@@ -70,6 +70,22 @@ class Options_model extends CI_Model
         return $result;
     }
 
+    public function details()
+    {
+        $result = array();
+
+        $this->db->where('level >', 1000);
+        $this->db->order_by('level', 'ASC');
+        $query = $this->db->get('options');
+
+        foreach ($query->result_array() as $row) {
+            $result[$row['title']][] = $row;
+        }
+        unset($row);
+
+        return $result;
+    }
+
     public function postset()
     {
         foreach ($this->input->post(NULL, TRUE) as $key => $value) {
@@ -90,7 +106,7 @@ class Options_model extends CI_Model
         }
 
         if (isset($_SESSION["希望する塗料の種類"])) {
-            $val = $this->getvalue($_SESSION["希望する塗料の種類"], 'unitprice');
+            $val = $this->get_options_value($_SESSION["希望する塗料の種類"], 'unitprice');
             $base_price = $base_area * $val['unitprice'];
         }
 
@@ -106,7 +122,7 @@ class Options_model extends CI_Model
                 case "屋根材の種類":
                 case "お住いの地域":
                 case "地域の気候の特徴":
-                    $val = $this->getvalue($_SESSION[$key], 'perprice');
+                    $val = $this->get_options_value($_SESSION[$key], 'perprice');
                     $result += $base_price * $val['perprice'];
                     break;
                 default:
@@ -118,7 +134,43 @@ class Options_model extends CI_Model
         return $result;
     }
 
-    private function getvalue($lv, $col)
+    public function listvalue()
+    {
+        $result = array();
+
+        if (isset($_SESSION["延床面積"])) {
+            $result["延床面積"] = $_SESSION["延床面積"];
+        }
+
+        if (isset($_SESSION["希望する塗料の種類"])) {
+            $val = $this->get_options_value($_SESSION["希望する塗料の種類"], 'strvalue');
+            $result["希望する塗料の種類"] = $val["strvalue"];
+        }
+
+        foreach ($_SESSION as $key => $val)
+        {
+            switch ($key)
+            {
+                case "前回の塗装からの経過年数":
+                case "築年数":
+                case "建物の階数":
+                case "外装材の種類":
+                case "屋根材の種類":
+                case "お住いの地域":
+                case "地域の気候の特徴":
+                    $val = $this->get_options_value($_SESSION[$key], 'strvalue');
+                    $result[$key] = $val["strvalue"];
+                    break;
+                default:
+                    break;
+            }
+        }
+        unset($key,$val);
+
+        return $result;
+    }
+
+    private function get_options_value($lv, $col)
     {
         $this->db->select($col);
         $this->db->where("level",$lv);
