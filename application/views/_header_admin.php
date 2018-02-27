@@ -9,6 +9,9 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
+                    <a class="nav-link <?php if (uri_string() == 'aggregate/period'): ?>active<?php endif; ?>" href="<?php echo base_url('aggregate/period'); ?>">期間集計</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link <?php if (uri_string() == 'setting/changepass'): ?>active<?php endif; ?>" href="<?php echo base_url('setting/changepass'); ?>">ログインユーザー設定</a>
                 </li>
                 <li class="nav-item">

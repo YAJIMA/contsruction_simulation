@@ -35,6 +35,41 @@ class Reports_model extends CI_Model
         }
     }
 
+    public function period_set()
+    {
+        $_SESSION['startdate'] = $this->input->post("startdate");
+        $_SESSION['enddate'] = $this->input->post("enddate");
+        return TRUE;
+    }
+
+    public function aggregate_calc($col = "finish")
+    {
+        $result = array();
+
+        $start = $_SESSION["startdate"];
+        $end = $_SESSION["enddate"];
+
+        $this->db->where($col." >=", $start);
+        $this->db->where($col." <=", $end);
+        $query = $this->db->get("reports");
+
+        foreach ($query->result_array() as $row)
+        {
+            $sql = "SELECT `options_reports`.*, `options`.`title`, `options`.`strvalue`, `options`.`unitprice`, `options`.`perprice`
+            FROM `options_reports` 
+            LEFT JOIN `options` ON `options`.`level` = `options_reports`.`level`
+            WHERE `options_reports`.`report_id` = ? ";
+            $subquery = $this->db->query($sql, array($row["id"]));
+
+            $row["options"] = $subquery->result_array();
+
+            $result[] = $row;
+        }
+        unset($row);
+
+        return $result;
+    }
+
     /**
      * load
      * @return array
@@ -57,8 +92,8 @@ class Reports_model extends CI_Model
 
             foreach ($options_reports as $row)
             {
-                $values = $this->get_options_value($row["level"], "title,strvalue");
-                $_SESSION[$values["title"]] = $values["strvalue"];
+                $values = $this->get_options_value($row["level"], "title,strvalue,level");
+                $_SESSION[$values["title"]] = $values["level"];
             }
 
             $result["options"] = $options_reports;
@@ -68,6 +103,10 @@ class Reports_model extends CI_Model
         return $result;
     }
 
+    /**
+     * update
+     * @return bool
+     */
     public function update()
     {
         if (isset($_SESSION["sess"]))
@@ -87,6 +126,7 @@ class Reports_model extends CI_Model
             {
                 switch ($key)
                 {
+                    case "希望する塗料の種類":
                     case "前回の塗装からの経過年数":
                     case "築年数":
                     case "建物の階数":

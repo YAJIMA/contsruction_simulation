@@ -122,7 +122,7 @@ class Options_model extends CI_Model
                 case "屋根材の種類":
                 case "お住いの地域":
                 case "地域の気候の特徴":
-                    $val = $this->get_options_value($_SESSION[$key], 'perprice');
+                    $val = $this->get_options_value($val, 'perprice');
                     $result += $base_price * $val['perprice'];
                     break;
                 default:

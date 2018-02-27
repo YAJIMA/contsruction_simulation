@@ -41,7 +41,7 @@ class Simulation extends CI_Controller
 
     public function index()
     {
-
+        $_SESSION = NULL;
         $this->data['title'] = 'トップページ';
         $this->load->view('simulation/welcome.php', $this->data);
     }
@@ -199,6 +199,41 @@ class Simulation extends CI_Controller
 
         // 見積もり計算
         $this->data['estimateprice'] = $this->options_model->calc();
+
+        // 宛先
+        // $_SESSION['email'] = $this->input->post("email");
+
+        // メール件名
+        $subject = $this->data['configs']['detail_sbj']['strvalue'];
+
+        // メール本文
+        $mailbody = $this->data['configs']['detail']['strvalue'];
+
+        $mailbody = str_replace("#見積金額#", number_format($this->data['estimateprice']), $mailbody);
+
+        $listvalues = $this->options_model->listvalue();
+        foreach ($listvalues as $key => $val)
+        {
+            $mailbody = str_replace("#".$key."#", $val, $mailbody);
+        }
+        unset($key,$val);
+
+        // メール送信
+        $this->load->library('email');
+        $this->email->from($this->data['configs']['email_from']['strvalue'], $this->data['configs']['email_from_name']['strvalue']);
+        $this->email->to($_SESSION['email']);
+        if ($this->data['configs']['email_reply']['strvalue'] !== "")
+        {
+            $this->email->reply_to($this->data['configs']['email_reply']['strvalue'], $this->data['configs']['email_from_name']['strvalue']);
+        }
+        if ($this->data['configs']['email_cc']['strvalue'] !== "")
+        {
+            $this->email->cc($this->data['configs']['email_cc']['strvalue']);
+        }
+        $this->email->subject($subject);
+        $this->email->message($mailbody);
+        $this->email->send();
+
 
         $this->data['title'] = '詳細見積もり結果';
         $this->load->view('simulation/detailfinish.php', $this->data);
