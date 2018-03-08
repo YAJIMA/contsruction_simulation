@@ -86,6 +86,50 @@ class Options_model extends CI_Model
         return $result;
     }
 
+    public function floorareas($min = 50, $max = 300, $mid = 100)
+    {
+        $midsel = TRUE;
+        for ($i = $min; $i <= $max; $i += 5) {
+            if (isset($_SESSION['延床面積']) && $_SESSION['延床面積'] == $i) {
+                $selected = 'selected';
+                $midsel = FALSE;
+            } elseif ($i == $mid && $midsel == TRUE) {
+                $floors[] = array(
+                    'value' => 0,
+                    'selected' => 'selected',
+                    'string' => '--',
+                );
+                $selected = '';
+            } else {
+                $selected = '';
+            }
+
+            $floors[] = array(
+                'value' => $i,
+                'selected' => $selected,
+                'string' => number_format($i) . '㎡',
+            );
+        }
+        if (isset($_SESSION['延床面積']) && $_SESSION['延床面積'] == ($max+1))
+        {
+            $floors[] = array(
+                'value' => ($max+1),
+                'selected' => 'selected',
+                'string' => '301㎡以上',
+            );
+        }
+        else
+        {
+            $floors[] = array(
+                'value' => 301,
+                'selected' => '',
+                'string' => '301㎡以上',
+            );
+        }
+
+        return $floors;
+    }
+
     public function postset()
     {
         foreach ($this->input->post(NULL, TRUE) as $key => $value) {

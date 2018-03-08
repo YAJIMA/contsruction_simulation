@@ -33,6 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </section>
     <section id="results">
+        <form method="post" action="<?php echo base_url('aggregate/rowdelete');?>" class="form" role="form">
         <div class="table-responsive">
             <table class="table table-striped table-sm">
                 <thead>
@@ -41,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th>日時</th>
                     <th>延床面積 ( ㎡ )</th>
                     <th>オプション</th>
+                    <th>削除</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <dt>メールからのアクセス</dt>
                             <dd><?php echo $row["email_access"]; ?></dd>
                             <dt>詳細フォーム完了</dt>
-                            <dd><?php echo $row["finish"]; ?>/dd>
+                            <dd><?php echo $row["finish"]; ?></dd>
                         </dl>
                     </td>
                     <td><?php echo number_format($row["floorarea"])."㎡"; ?></td>
@@ -66,11 +68,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php endforeach; ?>
                         </dl>
                     </td>
+                    <td>
+                        <input type="checkbox" name="rep_id[]" value="<?php echo $row["id"];?>">
+                    </td>
                 </tr>
                 <?php endforeach; ?>
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td class="text-right" colspan="5">
+                        <button type="submit" class="btn btn-danger btn-sm">チェックした行を削除</button>
+                    </td>
+                </tr>
+                </tfoot>
             </table>
         </div>
+        </form>
     </section>
     <?php endif; ?>
 </div>

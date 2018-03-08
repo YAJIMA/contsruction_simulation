@@ -1,12 +1,21 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Class Admin
+ * @property Users_model $users_model
+ * @property Reports_model $reports_model
+ */
 class Admin extends CI_Controller {
 
     public $data = array();
 
     public function index()
     {
+        // ここで古いレコードを削除する
+        $this->load->model('reports_model');
+        $this->reports_model->clearolds();
+
         $this->login();
     }
 

@@ -140,4 +140,16 @@ class Aggregate extends CI_Controller {
 
         redirect('admin/home');
     }
+
+    /**
+     * 行削除
+     */
+    public function rowdelete()
+    {
+        if (! empty($this->input->post("rep_id")))
+        {
+            $this->reports_model->delete($this->input->post("rep_id"));
+        }
+        redirect('aggregate/period');
+    }
 }

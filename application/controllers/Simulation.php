@@ -37,12 +37,13 @@ class Simulation extends CI_Controller
         // 初期設定
         $this->data['configs'] = $this->configs_model->load();
 
+        // 延床面積
+        $this->data['floors'] = $this->options_model->floorareas(50,300,100);
     }
 
     public function index()
     {
-        $_SESSION = NULL;
-        $this->data['title'] = 'トップページ';
+        $this->data['title'] = '外壁塗装シミュレーション';
         $this->load->view('simulation/welcome.php', $this->data);
     }
 
@@ -55,6 +56,9 @@ class Simulation extends CI_Controller
 
         // 簡易入力フォーム受付
         $this->options_model->postset();
+
+        // 延床面積
+        $this->data['floors'] = $this->options_model->floorareas(50,300,100);
 
         // 見積もり計算
         $this->data['estimateprice'] = $this->options_model->calc();
@@ -163,6 +167,10 @@ class Simulation extends CI_Controller
 
         // URLからセッションを上書き
         $_SESSION["sess"] = $_sess;
+        $this->reports_model->load();
+
+        // 延床面積
+        $this->data['floors'] = $this->options_model->floorareas(50,300,100);
 
         // メールのリンクを踏んだ
         if ( ! isset($_SESSION["email_access"]))

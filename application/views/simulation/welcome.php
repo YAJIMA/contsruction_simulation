@@ -21,70 +21,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="container">
     <form method="post" action="<?php echo base_url('simulation/simplicityform'); ?>" class="form" role="form">
         <div class="row">
-            <div class="col-md-12">
-                <h1><?php echo $title; ?></h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h2>簡易入力フォーム</h2>
-                <p>狸は舌のおねがい曲会が向うが怒っぶんましだろ。<br>
-                    ただぴたり丈夫ましましというゴーシュでなら。だめたたら方たはませそして聴衆のそれどころたちのときをはちょろちょろ愉快ますんて、どこまでこどもがはいりれんたまし。<br>
-                    出すぎみんなこそ狸を早くたと一生の胸のゴーシュたちで云い第一窓家の演奏から困っがやろだだろ。<br>
-                    コップははじめ出すてくるた。</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <h3>希望する塗料の種類 ( ㎡あたりの施工単価 )</h3>
-                <?php foreach ($items['希望する塗料の種類'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="希望する塗料の種類" value="<?php echo $item['level'];?>">
-                        <?php echo $item['strvalue']; ?>
-                        ( <?php echo number_format($item['unitprice']); ?>円 )
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-4">
-                <h3>延床面積 ( ㎡ )</h3>
-                <input type="number" name="延床面積" value="0" step="0.01" placeholder="0">㎡
-            </div>
-            <div class="col-md-4">
-                <h3>前回の塗装からの経過年数</h3>
-                <?php foreach ($items['前回の塗装からの経過年数'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="前回の塗装からの経過年数" value="<?php echo $item['level'];?>">
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <h3>築年数</h3>
-                <?php foreach ($items['築年数'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="築年数" value="<?php echo $item['level'];?>">
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-4">
-                <h3>建物の階数</h3>
-                <?php foreach ($items['建物の階数'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="建物の階数" value="<?php echo $item['level'];?>">
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-4">
-
-            </div>
-        </div>
-        <div class="row">
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">送信</button>
+                <h1><?php echo $title; ?></h1>
+                <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="mb-4"見積金額</h4>
+                <div class="alert alert-dark text-right">￥0円</div>
+            </div>
+            <div class="col-md-8 order-md-1">
+                <h4 class="mb-4">簡易シミュレーション</h4>
+                <div class="mb-3">
+                    <label for="延床面積">延床面積 ( ㎡ )</label>
+                    <select name="延床面積" id="延床面積" class="form-control" required>
+                        <?php foreach ( $floors as $item ) : ?>
+                        <option value="<?php echo $item['value']; ?>" <?php echo $item['selected']; ?>><?php echo $item['string'];?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>希望する塗料の種類 ( ㎡あたりの施工単価 )</label><br>
+                    <?php foreach ($items['希望する塗料の種類'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="希望する塗料の種類" value="<?php echo $item['level'];?>" required>
+                            <?php echo $item['strvalue']; ?>
+                            ( <?php echo number_format($item['unitprice']); ?>円 )
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="前回の塗装からの経過年数">前回の塗装からの経過年数</label><br>
+                    <?php foreach ($items['前回の塗装からの経過年数'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="前回の塗装からの経過年数" value="<?php echo $item['level'];?>" required>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="築年数">築年数</label><br>
+                    <?php foreach ($items['築年数'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="築年数" value="<?php echo $item['level'];?>" required>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="建物の階数">建物の階数</label><br>
+                    <?php foreach ($items['建物の階数'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="建物の階数" value="<?php echo $item['level'];?>" required>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <hr class="mb-4">
+                <button type="submit" class="btn btn-primary btn-block">送信</button>
             </div>
         </div>
     </form>

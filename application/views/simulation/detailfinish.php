@@ -20,127 +20,115 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 text-center">
             <h1><?php echo $title; ?></h1>
+            <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <h2>詳細見積もり金額 : <?php echo number_format($estimateprice);?>円</h2>
-            <p>狸は舌のおねがい曲会が向うが怒っぶんましだろ。<br>
-                ただぴたり丈夫ましましというゴーシュでなら。だめたたら方たはませそして聴衆のそれどころたちのときをはちょろちょろ愉快ますんて、どこまでこどもがはいりれんたまし。<br>
-                出すぎみんなこそ狸を早くたと一生の胸のゴーシュたちで云い第一窓家の演奏から困っがやろだだろ。<br>
-                コップははじめ出すてくるた。</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+
         </div>
     </div>
-    <form method="post" action="<?php echo base_url('simulation/detailfinish'); ?>" class="form" role="form">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>見積もりの修正フォーム</h2>
-                <p>狸は舌のおねがい曲会が向うが怒っぶんましだろ。<br>
-                    ただぴたり丈夫ましましというゴーシュでなら。だめたたら方たはませそして聴衆のそれどころたちのときをはちょろちょろ愉快ますんて、どこまでこどもがはいりれんたまし。<br>
-                    出すぎみんなこそ狸を早くたと一生の胸のゴーシュたちで云い第一窓家の演奏から困っがやろだだろ。<br>
-                    コップははじめ出すてくるた。</p>
-            </div>
+
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="mb-4">見積金額</h4>
+            <div class="alert alert-dark text-right">￥<?php echo number_format($estimateprice);?>円</div>
         </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h3>希望する塗料の種類 ( ㎡あたりの施工単価 )</h3>
-                <?php foreach ($items['希望する塗料の種類'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="希望する塗料の種類" value="<?php echo $item['level'];?>" <?php if ($_SESSION["希望する塗料の種類"] == $item['level']) echo 'checked'; ?>>
-                        <?php echo $item['strvalue']; ?>
-                        ( <?php echo number_format($item['unitprice']); ?>円 )
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-3">
-                <h3>延床面積 ( ㎡ )</h3>
-                <input type="number" name="延床面積" value="<?php echo $_SESSION["延床面積"];?>" step="0.01" placeholder="0">㎡
-            </div>
-            <div class="col-md-3">
-                <h3>前回の塗装からの経過年数</h3>
-                <?php foreach ($items['前回の塗装からの経過年数'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="前回の塗装からの経過年数" value="<?php echo $item['level'];?>" <?php if ($_SESSION["前回の塗装からの経過年数"] == $item['level']) echo 'checked'; ?>>
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-3">
-                <h3>築年数</h3>
-                <?php foreach ($items['築年数'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="築年数" value="<?php echo $item['level'];?>" <?php if ($_SESSION["築年数"] == $item['level']) echo 'checked'; ?>>
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-4">見積もり完了です！</h4>
+            <a href="https://gaiheki-kakekomi.com/"><img src="/simulation/images/banner.jpg" alt="バナー" class="img-fluid"></a>
+            <h4 class="mb-4">詳細見積もりフォーム（再見積もり）</h4>
+            <form method="post" action="<?php echo base_url('simulation/detailfinish'); ?>" class="form" role="form">
+                <div class="mb-3">
+                    <label for="延床面積">延床面積 ( ㎡ )</label>
+                    <select name="延床面積" id="延床面積" class="form-control">
+                        <?php foreach ( $floors as $item ) : ?>
+                            <option value="<?php echo $item['value']; ?>" <?php echo $item['selected']; ?>><?php echo $item['string'];?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>希望する塗料の種類 ( ㎡あたりの施工単価 )</label><br>
+                    <?php foreach ($items['希望する塗料の種類'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="希望する塗料の種類" value="<?php echo $item['level'];?>" <?php if ($_SESSION["希望する塗料の種類"] == $item['level']) echo 'checked'; ?>>
+                            <?php echo $item['strvalue']; ?>
+                            ( <?php echo number_format($item['unitprice']); ?>円 )
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="前回の塗装からの経過年数">前回の塗装からの経過年数</label><br>
+                    <?php foreach ($items['前回の塗装からの経過年数'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="前回の塗装からの経過年数" value="<?php echo $item['level'];?>" <?php if ($_SESSION["前回の塗装からの経過年数"] == $item['level']) echo 'checked'; ?>>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="築年数">築年数</label><br>
+                    <?php foreach ($items['築年数'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="築年数" value="<?php echo $item['level'];?>" <?php if ($_SESSION["築年数"] == $item['level']) echo 'checked'; ?>>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="建物の階数">建物の階数</label><br>
+                    <?php foreach ($items['建物の階数'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="建物の階数" value="<?php echo $item['level'];?>" <?php if ($_SESSION["建物の階数"] == $item['level']) echo 'checked'; ?>>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <hr class="mb-4">
+                <div class="mb-3">
+                    <label for="外装材の種類">外装材の種類</label><br>
+                    <?php foreach ($detail_items['外装材の種類'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="外装材の種類" value="<?php echo $item['level'];?>" <?php if ($_SESSION["外装材の種類"] == $item['level']) echo 'checked'; ?>>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="屋根材の種類">屋根材の種類</label><br>
+                    <?php foreach ($detail_items['屋根材の種類'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="屋根材の種類" value="<?php echo $item['level'];?>" <?php if ($_SESSION["屋根材の種類"] == $item['level']) echo 'checked'; ?>>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="お住いの地域">お住いの地域</label><br>
+                    <?php foreach ($detail_items['お住いの地域'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="お住いの地域" value="<?php echo $item['level'];?>" <?php if ($_SESSION["お住いの地域"] == $item['level']) echo 'checked'; ?>>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <div class="mb-3">
+                    <label for="地域の気候の特徴">地域の気候の特徴</label><br>
+                    <?php foreach ($detail_items['地域の気候の特徴'] as $item) : ?>
+                        <label>
+                            <input type="radio" name="地域の気候の特徴" value="<?php echo $item['level'];?>" <?php if ($_SESSION["地域の気候の特徴"] == $item['level']) echo 'checked'; ?>>
+                            <?php echo $item['strvalue']; ?>
+                        </label><br>
+                    <?php endforeach; ?>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">詳細見積もり（再見積もり）</button>
+            </form>
         </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h3>建物の階数</h3>
-                <?php foreach ($items['建物の階数'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="建物の階数" value="<?php echo $item['level'];?>" <?php if ($_SESSION["建物の階数"] == $item['level']) echo 'checked'; ?>>
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-3">
-                <h3>外装材の種類</h3>
-                <?php foreach ($detail_items['外装材の種類'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="外装材の種類" value="<?php echo $item['level'];?>" <?php if ($_SESSION["外装材の種類"] == $item['level']) echo 'checked'; ?>>
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-3">
-                <h3>屋根材の種類</h3>
-                <?php foreach ($detail_items['屋根材の種類'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="屋根材の種類" value="<?php echo $item['level'];?>" <?php if ($_SESSION["屋根材の種類"] == $item['level']) echo 'checked'; ?>>
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-3">
-                <h3>お住いの地域</h3>
-                <?php foreach ($detail_items['お住いの地域'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="お住いの地域" value="<?php echo $item['level'];?>" <?php if ($_SESSION["お住いの地域"] == $item['level']) echo 'checked'; ?>>
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <h3>地域の気候の特徴</h3>
-                <?php foreach ($detail_items['地域の気候の特徴'] as $item) : ?>
-                    <label>
-                        <input type="radio" name="地域の気候の特徴" value="<?php echo $item['level'];?>" <?php if ($_SESSION["地域の気候の特徴"] == $item['level']) echo 'checked'; ?>>
-                        <?php echo $item['strvalue']; ?>
-                    </label><br>
-                <?php endforeach; ?>
-            </div>
-            <div class="col-md-3">
-                &nbsp;
-            </div>
-            <div class="col-md-3">
-                &nbsp;
-            </div>
-            <div class="col-md-3">
-                &nbsp;
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">詳細見積もり（再見積もり）</button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>
 <!-- Bootstrap core JavaScript
 ================================================== -->
