@@ -38,7 +38,7 @@ class Simulation extends CI_Controller
         $this->data['configs'] = $this->configs_model->load();
 
         // 延床面積
-        $this->data['floors'] = $this->options_model->floorareas(50,300,100);
+        $this->data['floors'] = $this->options_model->floorareas(50,300,100,1);
     }
 
     public function index()
@@ -58,7 +58,7 @@ class Simulation extends CI_Controller
         $this->options_model->postset();
 
         // 延床面積
-        $this->data['floors'] = $this->options_model->floorareas(50,300,100);
+        $this->data['floors'] = $this->options_model->floorareas(50,300,100,1);
 
         // 見積もり計算
         $this->data['estimateprice'] = $this->options_model->calc();
@@ -170,7 +170,7 @@ class Simulation extends CI_Controller
         $this->reports_model->load();
 
         // 延床面積
-        $this->data['floors'] = $this->options_model->floorareas(50,300,100);
+        $this->data['floors'] = $this->options_model->floorareas(50,300,100,1);
 
         // メールのリンクを踏んだ
         if ( ! isset($_SESSION["email_access"]))

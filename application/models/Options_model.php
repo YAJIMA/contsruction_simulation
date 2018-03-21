@@ -86,10 +86,17 @@ class Options_model extends CI_Model
         return $result;
     }
 
-    public function floorareas($min = 50, $max = 300, $mid = 100)
+    /**
+     * @param int $min 最小値
+     * @param int $max 最大値
+     * @param int $mid 中間にする値
+     * @param int $countup カウントアップの基数
+     * @return array
+     */
+    public function floorareas($min = 50, $max = 300, $mid = 100, $countup = 1)
     {
         $midsel = TRUE;
-        for ($i = $min; $i <= $max; $i += 5) {
+        for ($i = $min; $i <= $max; $i += $countup) {
             if (isset($_SESSION['延床面積']) && $_SESSION['延床面積'] == $i) {
                 $selected = 'selected';
                 $midsel = FALSE;
