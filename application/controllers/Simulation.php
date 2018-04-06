@@ -43,7 +43,7 @@ class Simulation extends CI_Controller
 
     public function index()
     {
-        $this->data['title'] = '外壁塗装シミュレーション';
+        $this->data['title'] = '無料外壁塗装見積もりシミュレーション';
         $this->load->view('simulation/welcome.php', $this->data);
     }
 
@@ -63,7 +63,7 @@ class Simulation extends CI_Controller
         // 見積もり計算
         $this->data['estimateprice'] = $this->options_model->calc();
 
-        $this->data['title'] = '簡易入力フォームの入力受付';
+        $this->data['title'] = '無料外壁塗装見積もりシミュレーション入力完了';
         $this->load->view('simulation/simplicityform.php', $this->data);
     }
 
@@ -137,13 +137,13 @@ class Simulation extends CI_Controller
             // レポート更新
             $this->reports_model->update();
 
-            $this->data['title'] = '簡易入力フォームの入力受け付けました';
+            $this->data['title'] = 'メールアドレス送信完了';
             $this->load->view('simulation/simplicityform_thanks.php', $this->data);
         }
         else
         {
             //バリデーションエラーがあった場合の処理
-            $this->data['title'] = '簡易入力フォームの入力受付';
+            $this->data['title'] = 'メールアドレス送信完了';
             $this->load->view('simulation/simplicityform.php', $this->data);
         }
     }
@@ -185,7 +185,7 @@ class Simulation extends CI_Controller
         // 見積もり計算
         $this->data['estimateprice'] = $this->options_model->calc();
 
-        $this->data['title'] = '詳細見積もり';
+        $this->data['title'] = '無料詳細見積もりシミュレーション';
         $this->load->view('simulation/detailform.php', $this->data);
     }
 
@@ -243,7 +243,7 @@ class Simulation extends CI_Controller
         $this->email->send();
 
 
-        $this->data['title'] = '詳細見積もり結果';
+        $this->data['title'] = '無料詳細見積もりシミュレーション結果';
         $this->load->view('simulation/detailfinish.php', $this->data);
     }
 

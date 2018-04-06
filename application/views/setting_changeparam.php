@@ -28,7 +28,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <td><?php echo $o['perprice'];?></td>
                 <td><?php echo mb_substr($o['helptext'], 0, 8);?></td>
                 <td><?php echo mb_substr($o['strvalue'], 0, 8);?></td>
-                <td><?php echo mb_substr($o['imageurl'], 0, 8);?></td>
+                <td><?php if ( ! empty($o['imageurl'])) : ?>
+                    <img src="<?php echo $o['imageurl'];?>" width="80">
+                    <?php else : ?>
+                    &nbsp;
+                    <?php endif; ?>
+                </td>
                 <td class="text-right">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#em<?php echo $o['id'];?>">
