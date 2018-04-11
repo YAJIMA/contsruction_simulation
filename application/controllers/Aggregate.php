@@ -95,10 +95,13 @@ class Aggregate extends CI_Controller {
         if (isset($_SESSION["results"]))
         {
             $this->load->helper('download');
+            $this->load->helper('file');
 
             //header("Content-Type: application/octet-stream");
             $filename = 'result-'.date("YmdHis").'.csv';
-            $fp = fopen($filename, 'w');
+            // $fp = fopen($filename, 'w');
+            // テンプファイルを作成
+            $fp = tmpfile();
 
             $fields = array(
                 "メールアドレス",
@@ -112,7 +115,7 @@ class Aggregate extends CI_Controller {
                 $fields[] = $o["title"];
             }
             mb_convert_variables("SJIS-WIN", "UTF-8", $fields);
-            fputcsv($fp, $fields);
+            fputcsv($fp, $fields, ",", "\"", "\\");
 
             foreach ($_SESSION["results"] as $row)
             {
@@ -128,12 +131,24 @@ class Aggregate extends CI_Controller {
                     $fields[] = $o["strvalue"];
                 }
                 mb_convert_variables("SJIS-WIN", "UTF-8", $fields);
-                fputcsv($fp, $fields);
+                fputcsv($fp, $fields, ",", "\"", "\\");
             }
 
+            // ファイルコンテンツの作成
+            $contents = '';
+            rewind($fp);
+
+            while ( ! feof($fp))
+            {
+                $contents .= fread($fp, 8192);
+            }
+
+            // ファイルのダウンロード
+            force_download($filename, $contents, 'application/octet-stream');
+
+            // ファイルを閉じる（テンプファイルは削除）
             fclose($fp);
 
-            force_download($filename, NULL);
             exit;
             //redirect('aggregate/period');
         }

@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Bootstrap core CSS
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 -->
-	
+<meta name="robots" content="noindex">
 <link rel="stylesheet" href="https://gaiheki-kakekomi.com/maga/thanks.css" type="text/css"/>
 <link rel="stylesheet" href="https://gaiheki-kakekomi.com/maga/page.css" type="text/css"/>
 <link rel='stylesheet' id='base-css-css' href='https://gaiheki-kakekomi.com/home/wp-content/themes/xeory_base/base.css?ver=4.7.9' type='text/css' media='all' />

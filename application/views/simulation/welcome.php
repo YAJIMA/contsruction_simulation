@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link rel='stylesheet' id='base-css-css' href='https://gaiheki-kakekomi.com/home/wp-content/themes/xeory_base/base.css?ver=4.7.9' type='text/css' media='all' />
 <link rel='stylesheet' id='main-css-css' href='https://gaiheki-kakekomi.com/home/wp-content/themes/xeory_base/style.css?ver=4.7.9' type='text/css' media='all' />
 <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	
+<link rel="canonical" href="https://gaiheki-kakekomi.com/simulation/">
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -38,7 +38,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <header id="header" role="banner" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
 <div class="wrap">
-<h1 id="logo"><a href="https://gaiheki-kakekomi.com/"><img src="https://gaiheki-kakekomi.com/home/wp-content/uploads/2016/04/rogo1.png" alt="外壁塗装駆け込み寺コラムで絶対に失敗しないリフォームを！" /></a></h1>
+<h1 id="logo"><a href="https://gaiheki-kakekomi.com/"><img src="https://gaiheki-kakekomi.com/home/wp-content/uploads/2016/04/rogo1.png" alt="外壁塗装駆け込み寺" /></a></h1>
 <a href="tel:0120993468" onclick="ga('send', 'event', 'smartphone', 'phone-number-tap', 'main');"><img class=" size-full wp-image-1471 alignnone" src="https://gaiheki-kakekomi.com/home/wp-content/uploads/2015/08/rogobangou1.png" alt="rogobangou" width="500" height="65" /></a>
 </div>
 </header>
@@ -46,7 +46,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div id="content">
 <div class="wrap">
-
+<ol class="breadcrumb clearfix"><li itemscope="itemscope" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://gaiheki-kakekomi.com/" itemprop="url"><i class="fa fa-home"></i> <span itemprop="title">外壁塗装駆け込み寺</span></a> &gt; </li><li><i class="fa fa-file-text"></i> 無料外壁塗装見積もりシミュレーション</li></ol> 
 <div id="main" class="col-md-8">
 <div class="main-inner">
         
@@ -79,10 +79,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <label class="form_title">希望する塗料の種類</label>
 <div class="tosou_syurui">
     <?php foreach ($items['希望する塗料の種類'] as $item) : ?>
-        <?php if ($item['strvalue'] == 'ウレタン塗料') : ?>
+        <?php if ($item['strvalue'] == 'ラジカル塗料') : ?>
             <!-- 人気 No.1 -->
             <label class="no"><input type="radio" name="希望する塗料の種類" value="<?php echo $item['level']; ?>" <?php if ( isset($_SESSION["希望する塗料の種類"]) && $_SESSION["希望する塗料の種類"] == $item['level']) echo 'checked'; ?> required><span class="icon_no1"><img src="/simulation/images/no1.png" width="47" height="48" alt="人気No.1"></span><img src="<?php echo $item['imageurl']; ?>" alt="<?php echo $item['strvalue']; ?>"></label>
-        <?php elseif ($item['strvalue'] == 'ラジカル塗料') : ?>
+        <?php elseif ($item['strvalue'] == 'シリコン塗料') : ?>
             <!-- 人気 No.2 -->
             <label class="no"><input type="radio" name="希望する塗料の種類" value="<?php echo $item['level']; ?>" <?php if ( isset($_SESSION["希望する塗料の種類"]) && $_SESSION["希望する塗料の種類"] == $item['level']) echo 'checked'; ?> required><span class="icon_no1"><img src="/simulation/images/no2.png" width="47" height="48" alt="人気No.1"></span><img src="<?php echo $item['imageurl']; ?>" alt="<?php echo $item['strvalue']; ?>"></label>
         <?php else : ?>

@@ -15,7 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Bootstrap core CSS
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 -->
-	
+<meta name="robots" content="noindex">
 <link rel="stylesheet" href="https://gaiheki-kakekomi.com/maga/thanks.css" type="text/css"/>
 <link rel="stylesheet" href="https://gaiheki-kakekomi.com/maga/page.css" type="text/css"/>
 <link rel='stylesheet' id='base-css-css' href='https://gaiheki-kakekomi.com/home/wp-content/themes/xeory_base/base.css?ver=4.7.9' type='text/css' media='all' />
@@ -83,10 +83,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <label class="form_title">希望する塗料の種類 ( ㎡あたりの施工単価 )</label>
 <div class="tosou_syurui">
     <?php foreach ($items['希望する塗料の種類'] as $item) : ?>
-        <?php if ($item['strvalue'] == 'ウレタン塗料') : ?>
+        <?php if ($item['strvalue'] == 'ラジカル塗料') : ?>
             <!-- 人気 No.1 -->
             <label class="no"><input type="radio" name="希望する塗料の種類" value="<?php echo $item['level']; ?>" <?php if ( isset($_SESSION["希望する塗料の種類"]) && $_SESSION["希望する塗料の種類"] == $item['level']) echo 'checked'; ?> required><span class="icon_no1"><img src="/simulation/images/no1.png" width="47" height="48" alt="人気No.1"></span><img src="<?php echo $item['imageurl']; ?>" alt="<?php echo $item['strvalue']; ?>"></label>
-        <?php elseif ($item['strvalue'] == 'ラジカル塗料') : ?>
+        <?php elseif ($item['strvalue'] == 'シリコン塗料') : ?>
             <!-- 人気 No.2 -->
             <label class="no"><input type="radio" name="希望する塗料の種類" value="<?php echo $item['level']; ?>" <?php if ( isset($_SESSION["希望する塗料の種類"]) && $_SESSION["希望する塗料の種類"] == $item['level']) echo 'checked'; ?> required><span class="icon_no1"><img src="/simulation/images/no2.png" width="47" height="48" alt="人気No.1"></span><img src="<?php echo $item['imageurl']; ?>" alt="<?php echo $item['strvalue']; ?>"></label>
         <?php else : ?>
